@@ -57,6 +57,9 @@ heightrounded]{geometry}
   	{}
   	{0pt}
 	{}
+	
+	%Try to avoid warnings:
+		\setlength{\headheight}{18pt}
 
 %Colour \& Images
 
@@ -64,7 +67,6 @@ heightrounded]{geometry}
 	\usepackage{graphicx}
 	\graphicspath{{resources/images}}
 	\usepackage{wrapfig}
-	\usepackage{epsfig}
 
 	%Enables text under image without caption.
 	\usepackage{caption}
@@ -86,8 +88,7 @@ heightrounded]{geometry}
 	%Changes to the Table of Contents
 	\addto\captionsbritish{\renewcommand{\contentsname}{Table of Contents}}
 	\setcounter{tocdepth}{1} %Only chapters & sections are added to the TOC
-	\usepackage{tocloft}
-	\setlength{\cftbeforetoctitleskip}{-8ex}
+	\usepackage[titles]{tocloft}
 
 	%For quotations in the Foreword and Editor's Preface:
 	\usepackage{quoting}
@@ -418,9 +419,6 @@ heightrounded]{geometry}
 	\newcommand{\lentenheading}[2]{\par\subsection{{\color{LentenViolet}#2}}
 	\feastday{#1}}
 	
-	%For drawing boxes around unapproved text:
-	\usepackage[most]{tcolorbox}
-	
 	%For typesetting Memorials
 	\newcommand{\subbymemorial}[4]{\subsection{({\color{#4}#1. #2,} {\color{RubricRed}#3})}}
 	
@@ -479,21 +477,6 @@ heightrounded]{geometry}
 	\newcommand{\secondEvensongAntiphon}[1]{\par\noindent
 	\textit{Mag. Ant.} #1}
 	
-
-%Hymns:
-	%Invitatory Hymn Heading
-	\newcommand{\invitatoryhymn}{%
-		\begin{inhead}
-			Invitatory Hymn
-		\end{inhead}}
-
-	%Office Hymn Heading
-	\newcommand{\officehymn}{\par\vspace{0.1\baselineskip}%
-		\begin{inhead}
-			Office Hymn
-		\end{inhead}
-		\par
-		\vspace{-0.1\baselineskip}}
 
 %New Commands for Office parts:
 	\newcommand{\mattins}[0]{\subsubsection{Mattins}}
@@ -558,20 +541,6 @@ heightrounded]{geometry}
 \selectlanguage{british}
 \fussy}
 
-%For difference between through the year and in eastertide:
-\newcommand{\ttyie}[2]{\sloppy
-	\begin{paracol}{2}
-		\begin{leftcolumn}\noindent
-			#1	
-		\end{leftcolumn}
-		\begin{rightcolumn}\noindent
-			#2
-		\end{rightcolumn}
-		\switchcolumn*
-	\end{paracol}
-\selectlanguage{british}
-\fussy}
-
 %Expedites adding dual language Oremus/Let Us Pray
 \newcommand{\oremus}[0]{\par
 	\begin{paracol}{2}
@@ -599,9 +568,20 @@ heightrounded]{geometry}
 %URL
 	\usepackage[hidelinks]{hyperref}	
 	\usepackage{bookmark}
+	\usepackage{xurl}
 
+%TOC Heading:
+	\makeatletter
+\renewcommand\tableofcontents{%
+  \clearpage
+  \fancyhead[C]{\LARGE\contentsname}
+  \@starttoc{toc}%
+}
+\makeatother
 	
 \begin{document}
+		%Front Matter
+\frontmatter
 	\begin{titlepage}
 		\begin{center}
 		\scshape\Huge
@@ -636,18 +616,16 @@ heightrounded]{geometry}
             \end{figure}
 		
 	\end{titlepage}
-	
-	%Front Matter
-\frontmatter
 \include{pages/Front/Copyright}
 \clearpage
 \tableofcontents
 \cleardoublepage
-%\include{pages/Front/Dedication}
+\include{pages/Front/Preface}
 \include{pages/Front/Rubrics}
 \include{pages/Front/OrderPsalms}
 \include{pages/Front/TableYear}
 \include{pages/Front/Ranking}
+\cleardoublepage
 \include{pages/Front/Kalendar}
 %Lectionary
 \cleardoublepage
@@ -693,7 +671,7 @@ heightrounded]{geometry}
 \include{pages/Eucharistic/EucharisticCover}
 \include{pages/Eucharistic/Benediction}
 \include{pages/Eucharistic/Preparation}
-\include{pages/Eucharistic/Thanksgiving}
+%\include{pages/Eucharistic/Thanksgiving}
 \include{pages/Eucharistic/Antecommunion}
 %Office Hymns
 \cleardoublepage
@@ -711,13 +689,15 @@ heightrounded]{geometry}
 \include{pages/Commons/CommonsCover}
 \include{pages/Commons/Commons}
 %Family Prayers
-\cleardoublepage
-\include{pages/Family/FamilyCover}
-\include{pages/Family/Family}
+%\cleardoublepage
+%\include{pages/Family/FamilyCover}
+%\include{pages/Family/Family}
 %Psalter of David
 \cleardoublepage
 \include{pages/Psalter/PsalterCover}
 \include{pages/Psalter/Psal}
+\include{pages/Psalter/Manasses}
 %Back Page
+\cleardoublepage
 \include{pages/Back}
 \end{document}
